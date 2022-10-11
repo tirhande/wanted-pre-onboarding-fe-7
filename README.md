@@ -12,6 +12,8 @@ wanted-pre-onboarding-fe-7
 │   ├── lib
 │   │   └── privateRoute.js
 │   ├── pages
+│   │   ├── components
+│   │   │   └── pagination.jsx
 │   │   ├── login
 │   │   │   └── login.jsx
 │   │   ├── register
@@ -43,7 +45,8 @@ yarn build
 ```
 
 ## 업데이트 내역
-
+* 0.3.0
+    * Todo List 데이터 불러오기 구현
 * 0.2.0
     * 로그인, 회원가입 구현
 * 0.1.0
