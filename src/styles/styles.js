@@ -33,6 +33,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 `;
 
+
 const CommonStyle = css`
   height: 100%;
   display: flex;
@@ -146,10 +147,6 @@ export const TodoTable = styled.main`
     border-bottom: 1px solid #aaa;
   }
   ul:not(.subject) {
-    height: 10%;
-    li:first-child span {
-      font-size: 1.3em;
-    }
     li span.empty_check {
       cursor: pointer;
     }

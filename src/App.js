@@ -11,7 +11,7 @@ const App = () => {
   return (
     <>
       <GlobalStyles />
-      <BrowserRouter basename="wanted-pre-onboarding-fe-7">
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<PrivateRoute component={<LoginPage />} />}/>
           <Route path="/register" element={<RegistPage />} />

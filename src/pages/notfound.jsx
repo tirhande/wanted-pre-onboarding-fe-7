@@ -2,7 +2,7 @@ import React from 'react';
 
 const NotFound = () => {
     return (
-        <div style={{backgroundColor:'#ff0000'}}>
+        <div style={{height: "100%"}}>
             404 Not Found
         </div>
     );
