@@ -9,11 +9,15 @@ jwt 토큰을 이용한 로그인, 회원가입 그리고 Todo list 페이지입
 wanted-pre-onboarding-fe-7
 ├── public
 ├── src
+│   ├── lib
+│   │   └── privateRoute.js
 │   ├── pages
 │   │   ├── login
 │   │   │   └── login.jsx
 │   │   ├── register
 │   │   │   └── register.jsx
+│   │   ├── todo
+│   │   │   └── todo.jsx
 │   │   └── notFound.jsx
 │   └── styles
 │       └── styled.js
@@ -40,6 +44,8 @@ yarn build
 
 ## 업데이트 내역
 
+* 0.2.0
+    * 로그인, 회원가입 구현
 * 0.1.0
     * 초기 설정 커밋
 
