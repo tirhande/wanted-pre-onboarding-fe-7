@@ -28,8 +28,8 @@ wanted-pre-onboarding-fe-7
 └── index.js
 ```  
 
-## 데모 영상
-_  
+## 데모 페이지
+https://tirhande.github.io/wanted-pre-onboarding-fe-7/  
 
 ## **Getting Started**
 - 패키지 설치 (package.json)
