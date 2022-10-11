@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from 'react-router-dom'
 import { request } from "../../lib/request";
+import { RegisterForm } from "../../styles/styles";
 
 const RegistPage = () => {
   const navigate = useNavigate();
@@ -61,12 +62,15 @@ const RegistPage = () => {
   };
 
   return (
-    <form onSubmit={onRegisterSubmit}>
-      <input type="text" name="email" onChange={inputChange} placeholder="이메일 주소" required/>
-      <input type="password" name="password" onChange={inputChange} placeholder="비밀번호" required/>
-      <input type="password" name="passwordCheck" onChange={inputChange} placeholder="비밀번호 확인" required/>
-      <button type="submit">회원 가입</button>
-  </form>
+    <RegisterForm>
+      <form onSubmit={onRegisterSubmit}>
+        <h1>회원가입</h1>
+        <input type="text" name="email" onChange={inputChange} placeholder="이메일 주소" required/>
+        <input type="password" name="password" onChange={inputChange} placeholder="비밀번호" required/>
+        <input type="password" name="passwordCheck" onChange={inputChange} placeholder="비밀번호 확인" required/>
+        <button type="submit">회원 가입</button>
+      </form>
+    </RegisterForm>
   );
 };
 

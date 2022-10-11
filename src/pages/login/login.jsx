@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { request, setRequestHeaders } from "../../lib/request";
+import { LoginDiv } from "../../styles/styles";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -20,10 +21,6 @@ const LoginPage = () => {
   const loginSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const res = await axios.post("/auth/signin", {
-      //   email: loginInfo.email,
-      //   password: loginInfo.password
-      // });
       const res = await request.post("/auth/signin", {
         email: loginInfo.email,
         password: loginInfo.password
@@ -39,18 +36,19 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <LoginDiv>
       <form onSubmit={loginSubmit}>
+        <h1>로그인</h1>
         <input type="text" name="email" value={loginInfo.email} onChange={inputChange} placeholder="이메일 주소" required/>
         <input type="password" name="password" value={loginInfo.password} onChange={inputChange} placeholder="비밀번호" required/>
         <button type="submit" disabled={!isValid}>로그인</button>
+        <p>
+          <Link to="/register">
+            회원가입
+          </Link>
+        </p>
       </form>
-      <Link to="/register">
-        <button>
-          회원가입
-        </button>
-      </Link>
-    </div>
+    </LoginDiv>
   );
 };
 

@@ -46,6 +46,8 @@ yarn build
 ```
 
 ## 업데이트 내역
+* 1.0.0
+    * CSS 적용
 * 0.4.0
     * Todo List 데이터 create, update, delete 구현
 * 0.3.0
