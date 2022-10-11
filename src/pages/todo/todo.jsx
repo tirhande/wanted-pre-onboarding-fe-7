@@ -1,82 +1,56 @@
-import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faSquare, faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { faSquare, faSquareCheck } from "@fortawesome/free-regular-svg-icons";
 import Pagination from "../components/pagination";
-
-// createTodo POST
-// todos
-// Bearer access_token
-// headers: {
-//   Authorization: `Bearer ${accessToken}`
-// }
-// body
-// todo : string
-// response status: 201 Created
-
-// getTodos GET
-// todos
-// Bearer access_token
-// headers: {
-//   Authorization: `Bearer ${accessToken}`
-// }
-
-// updateTodo PUT
-// /todos/:id
-// status: 200 OK
-
-// deleteTodo DELETE
-// /todos/:id
-// status: 204 No Content
-// body: 없음
-
-const TodoTable = styled.main`
-  display: table;
-  width: 700px;
-  height: 100%;
-
-  ul {
-    display: table-row;
-  }
-  ul.subject {
-    display: table-header-group;
-  }
-  li {
-    display: table-cell;
-    width: 80px;
-    text-align: center;
-  }
-`;
+import { request } from "../../lib/request";
+import { TodoTable } from "../../styles/styles";
 
 const TodoPage = () => {
   const [todoList, setTodoList] = useState([]);
+  const [todo, setTodo] = useState('');
+  const [editTodoList, setEditTodoList] = useState([]);
+
+  // Todo Table Pagination 옵션
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
 
-  const [editTodoList, setEditTodoList] = useState([]);
-
   useEffect(() => {
     const getTodos = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-      const res = await axios.get("/todos", { headers: {Authorization : `Bearer ${accessToken}`}});
-      setTodoList(res.data);
-    }
+      try {
+        const res = await request.get("/todos");
+        setTodoList(res.data);
+      } catch(e) {
+        console.log(e);
+      }
+    };
+
     getTodos();
   }, []);
 
-  const todoComplete = () => {
+  const todoComplete = async (id) => {
     if(!window.confirm("완료처리 하시겠습니까?")) {
       return false;
     };
+    const findTodo = todoList.find(obj => obj.id === id);
+    try {
+      const res = await request.put(`/todos/${id}`, { todo: findTodo.todo, isCompleted: true });
+      setTodoList(prev => prev.map(obj => obj.id === id ? res.data : {...obj})); 
+    } catch(e) {
+      console.log(e);
+    }
   }
 
-  const addTodo = (e) => {
+  const createTodo = async (e) => {
     e.preventDefault();
-    console.log(todo);
-    // axios post 보내기
+    try {
+      const res = await request.post("/todos", { todo: todo });
+      alert("Todo가 추가되었습니다.");
+      setTodoList(prev => [...prev, res.data]);
+      setTodo('');
+    } catch(e) {
+      console.log(e);
+    }
   };
 
   const todoChange = (e) => {
@@ -91,7 +65,7 @@ const TodoPage = () => {
   }
 
   // 수정/취소/제출 버튼
-  const clickBtn = (e, id) => {
+  const clickBtn = async (e, id) => {
     const { name } = e.target;
     if(name === "editTodo") setEditTodoList(prev => [...prev, { id: id, todo: todoList.find(obj => obj.id === id).todo }]);
     else if(name === "editCancel") {
@@ -99,22 +73,38 @@ const TodoPage = () => {
       setEditTodoList(prev => prev.filter(item => item.id !== id));
     }
     else if(name === "editSubmit") {
-      console.log('edit submit')
+      const findTodo = todoList.find(obj => obj.id === id);
+      if(findTodo) {
+        try {
+          const res = await request.put(`/todos/${id}`, { todo: findTodo.todo, isCompleted: findTodo.isCompleted });
+          alert("수정 되었습니다.");
+          setTodoList(prev => prev.map(obj => obj.id === id ? res.data : {...obj})); 
+          setEditTodoList(prev => prev.filter(item => item.id !== id));
+        } catch(e) {
+          console.log(e)
+        }
+      }
     }
     else if(name === "delTodo") {
-      console.log('del todo');
+      if(!window.confirm("삭제 하시겠습니까?")) {
+        return false;
+      };
+      const findTodo = todoList.find(obj => obj.id === id);
+      if(findTodo) {
+        try {
+          const res = await request.delete(`/todos/${id}`);
+          setTodoList(prev => prev.filter(item => item.id !== id)); 
+        } catch(e) {
+          console.log(e)
+        }
+      }
     }
   };
-
-  useEffect(() => {
-    console.log(todoList);
-  }, [todoList])
-  const [todo, setTodo] = useState('');
   
   return (
     <div>
       <header></header>
-      <form onSubmit={addTodo}>
+      <form onSubmit={createTodo}>
         <input type="text" name="todo" value={todo} onChange={todoChange} placeholder="todo 적기"/>
         <button type="submit">추가</button>
       </form>
@@ -132,8 +122,8 @@ const TodoPage = () => {
             return (
               <ul key={i}>
                 <li>
-                  <span onClick={todoComplete}>{isCompleted ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}</span>
-                  </li>
+                  {isCompleted ? <FontAwesomeIcon icon={faSquareCheck} /> : <span onClick={_ => todoComplete(id)}><FontAwesomeIcon icon={faSquare} /></span>}
+                </li>
                 <li>
                   <span>{id}</span>
                 </li>

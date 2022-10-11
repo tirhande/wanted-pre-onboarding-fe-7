@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { request, setRequestHeaders } from "../../lib/request";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -20,12 +20,16 @@ const LoginPage = () => {
   const loginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/auth/signin", {
+      // const res = await axios.post("/auth/signin", {
+      //   email: loginInfo.email,
+      //   password: loginInfo.password
+      // });
+      const res = await request.post("/auth/signin", {
         email: loginInfo.email,
         password: loginInfo.password
       });
-
       localStorage.setItem('accessToken', res.data.access_token);
+      setRequestHeaders(res.data.access_token);
       navigate('/todo');
     } catch (e) {
       console.log(e);

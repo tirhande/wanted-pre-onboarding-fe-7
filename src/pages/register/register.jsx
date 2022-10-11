@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState, useCallback } from "react";
 import { useNavigate } from 'react-router-dom'
+import { request } from "../../lib/request";
 
 const RegistPage = () => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const RegistPage = () => {
   const onRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/auth/signup", {
+      const res = await request.post("/auth/signup", {
         email: userInfo.email.value,
         password: userInfo.password.value
       });

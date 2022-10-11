@@ -10,10 +10,11 @@ wanted-pre-onboarding-fe-7
 ├── public
 ├── src
 │   ├── lib
-│   │   └── privateRoute.js
+│   │   ├── privateRoute.js
+│   │   └── request.js
 │   ├── pages
 │   │   ├── components
-│   │   │   └── pagination.jsx
+│   │   │   ├── pagination.jsx
 │   │   ├── login
 │   │   │   └── login.jsx
 │   │   ├── register
@@ -22,7 +23,7 @@ wanted-pre-onboarding-fe-7
 │   │   │   └── todo.jsx
 │   │   └── notFound.jsx
 │   └── styles
-│       └── styled.js
+│       └── styles.js
 ├── App.js
 └── index.js
 ```  
@@ -45,6 +46,8 @@ yarn build
 ```
 
 ## 업데이트 내역
+* 0.4.0
+    * Todo List 데이터 create, update, delete 구현
 * 0.3.0
     * Todo List 데이터 불러오기 구현
 * 0.2.0
